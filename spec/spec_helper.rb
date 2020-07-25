@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'bundler/setup'
-require 'rb_json5'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
@@ -14,3 +13,15 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
 end
+
+if ENV.key?('COVERAGE')
+  require 'simplecov'
+  SimpleCov.start
+end
+
+if ENV.key?('COVERAGE') && ENV.key?('CI')
+  require 'simplecov-cobertura'
+  SimpleCov.formatter = SimpleCov::Formatter::CoberturaFormatter
+end
+
+require 'rb_json5'

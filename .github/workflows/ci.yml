@@ -1,0 +1,44 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  rspec:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        ruby: ['2.7', '2.6', '2.5', '2.4']
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Ruby
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+
+      - name: Cache gems
+        uses: actions/cache@v1
+        with:
+          path: vendor/bundle
+          key: gems-${{ runner.os }}-${{ matrix.ruby }}-${{ github.sha }}
+          restore-keys: |
+            gems-${{ runner.os }}-${{ matrix.ruby }}-
+
+      - name: Install gems
+        run: |
+          gem install -N bundler
+          bundle config path vendor/bundle
+          bundle install
+
+      - name: Run RSpec
+        run: |
+          bundle exec rake coverage
+
+      - name: Upload coverage report
+        uses: codecov/codecov-action@v1
+        with:
+          name: ${{ runner.os }}-${{ matrix.ruby }}
+          file: ./coverage/coverage.xml
+          fail_ci_if_error: true

@@ -7,4 +7,6 @@ gem 'rake'
 
 group :test do
   gem 'rspec', '~> 3.9', require: false
+  gem 'simplecov', require: false
+  gem 'simplecov-cobertura', require: false
 end
