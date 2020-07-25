@@ -23,4 +23,6 @@ Gem::Specification.new do |spec|
   spec.files =
     `git ls-files lib LICENSE CODE_OF_CONDUCT.md README.md`.split($RS)
   spec.require_paths = ['lib']
+
+  spec.add_runtime_dependency 'parslet', '~> 2.0'
 end
