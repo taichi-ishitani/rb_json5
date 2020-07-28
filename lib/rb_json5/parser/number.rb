@@ -41,7 +41,7 @@ module RbJSON5
     end
 
     parse_rule(:hex_integer_literal) do
-      str('0') >> match('[Xx]') >> match('[0-9A-Fa-f]').repeat(1)
+      str('0') >> match('[Xx]') >> match('\\h').repeat(1)
     end
 
     parse_rule(:integer_number) do
