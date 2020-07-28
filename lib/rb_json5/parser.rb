@@ -43,5 +43,9 @@ module RbJSON5
     def transform
       self.class.transform.new
     end
+
+    parse_rule(:value) do
+      null | boolean | string | number | array
+    end
   end
 end
