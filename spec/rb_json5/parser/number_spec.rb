@@ -57,7 +57,7 @@ RSpec.describe 'parser/number' do
     end
   end
 
-  it 'should parse NaN ans signed NaN' do
+  it 'should parse NaN and signed NaN' do
     ['NaN', '+NaN', '-NaN'].each do |input|
       expect(parser).to parse(input, trace: true).as(&:nan?)
     end
