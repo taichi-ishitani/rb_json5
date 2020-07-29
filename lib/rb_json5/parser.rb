@@ -19,6 +19,10 @@ module RbJSON5
         parser.class_eval { rule(rule_name, &body) }
       end
 
+      def parse_helper(helper_name, &body)
+        parser.class_eval { define_method(helper_name, &body) }
+      end
+
       def transform_rule(expression, &body)
         transform.class_eval { rule(expression, &body) }
       end
@@ -46,6 +50,10 @@ module RbJSON5
 
     parse_rule(:value) do
       null | boolean | string | number | array | object
+    end
+
+    parse_rule(:root) do
+      space? >> value >> space?
     end
   end
 end

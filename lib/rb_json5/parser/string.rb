@@ -2,17 +2,6 @@
 
 module RbJSON5
   class Parser
-    {
-      lf: "\u000a", cr: "\u000d",
-      ls: "\u2028", ps: "\u2029"
-    }.each do |name, code|
-      parse_rule(name) { str(code) }
-    end
-
-    parse_rule(:line_terminator) do
-      lf | cr | ls | ps
-    end
-
     parse_rule(:line_terminator_sequence) do
       (cr >> lf) | line_terminator
     end

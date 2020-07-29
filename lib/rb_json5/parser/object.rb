@@ -33,20 +33,20 @@ module RbJSON5
 
     parse_rule(:object_member) do
       (
-        (identifier_name | string).as(:key) >> str(':') >> value.as(:value)
+        (identifier_name | string).as(:key) >> colon >> value.as(:value)
       ).as(:object_member)
     end
 
     parse_rule(:object_members) do
-      object_member >> (str(',') >> object_member).repeat >> str(',').maybe
+      object_member >> (comma >> object_member).repeat >> comma.maybe
     end
 
     parse_rule(:non_empty_object) do
-      str('{') >> object_members.as(:object_members) >> str('}')
+      bra('{') >> object_members.as(:object_members) >> cket('}')
     end
 
     parse_rule(:empty_object) do
-      (str('{') >> str('}')).as(:empty_object)
+      (bra('{') >> cket('}')).as(:empty_object)
     end
 
     parse_rule(:object) do

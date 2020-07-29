@@ -3,15 +3,15 @@
 module RbJSON5
   class Parser
     parse_rule(:empty_array) do
-      (str('[') >> str(']')).as(:empty_array)
+      (bra('[') >> cket(']')).as(:empty_array)
     end
 
     parse_rule(:array_elements) do
-      value >> (str(',') >> value).repeat >> str(',').maybe
+      value >> (comma >> value).repeat >> comma.maybe
     end
 
     parse_rule(:non_empty_array) do
-      str('[') >> array_elements.as(:array_elements) >> str(']')
+      bra('[') >> array_elements.as(:array_elements) >> cket(']')
     end
 
     parse_rule(:array) do
