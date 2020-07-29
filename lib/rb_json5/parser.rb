@@ -45,7 +45,7 @@ module RbJSON5
     end
 
     parse_rule(:value) do
-      null | boolean | string | number | array
+      null | boolean | string | number | array | object
     end
   end
 end
