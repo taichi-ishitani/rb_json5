@@ -34,18 +34,30 @@ module RbJSON5
       ).as(:line_continuation)
     end
 
-    parse_rule(:single_string_charactor) do
-      line_continuation | escape_sequence | ls | ps |
+    parse_rule(:single_string_normal_charactor) do
+      (
+        ls | ps |
         ((str("'") | str('\\') | line_terminator).absent? >> any)
+      ).as(:normal_charactor)
+    end
+
+    parse_rule(:single_string_charactor) do
+      line_continuation | escape_sequence | single_string_normal_charactor
     end
 
     parse_rule(:single_string_charactors) do
       str("'") >> single_string_charactor.repeat.as(:string_charactors) >> str("'")
     end
 
-    parse_rule(:double_string_charactor) do
-      line_continuation | escape_sequence | ls | ps |
+    parse_rule(:double_string_normal_charactor) do
+      (
+        ls | ps |
         ((str('"') | str('\\') | line_terminator).absent? >> any)
+      ).as(:normal_charactor)
+    end
+
+    parse_rule(:double_string_charactor) do
+      line_continuation | escape_sequence | double_string_normal_charactor
     end
 
     parse_rule(:double_string_charactors) do
@@ -72,6 +84,10 @@ module RbJSON5
 
     transform_rule(line_continuation: simple(:_)) do
       ''
+    end
+
+    transform_rule(normal_charactor: simple(:character)) do
+      character.to_s
     end
 
     transform_rule(string_charactors: subtree(:characters)) do

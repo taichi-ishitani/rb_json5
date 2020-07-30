@@ -25,6 +25,8 @@ RSpec.describe 'parser/string' do
   end
 
   it 'should parse escaped characters' do
+    expect(parser).to parse('"a\\\\b"', trace: true).as('a\\b')
+
     expect(parser)
       .to parse("'\\b\\f\\n\\r\\t\\v\\0\\x0f\\u01fF\\\n\\\r\n\\\r\\\u2028\\\u2029\\a\\'\\\"'", trace: true)
       .as("\b\f\n\r\t\v\0\x0f\u01ffa'\"")
