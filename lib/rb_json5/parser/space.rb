@@ -27,7 +27,7 @@ module RbJSON5
     end
 
     parse_rule(:multi_line_comment_chars) do
-      (str('*').absent? >> any) | (str('*') >> str('/').absent? >> any)
+      (str('*').absent? >> any) | (str('*') >> str('/').absent?)
     end
 
     parse_rule(:multi_line_comment) do

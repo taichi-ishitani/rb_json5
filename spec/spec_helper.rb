@@ -25,4 +25,6 @@ if ENV.key?('COVERAGE') && ENV.key?('CI')
   SimpleCov.formatter = SimpleCov::Formatter::CoberturaFormatter
 end
 
+JSON5_TESTS = File.expand_path('json5-tests', __dir__)
+
 require 'rb_json5'

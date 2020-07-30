@@ -12,7 +12,22 @@ RSpec.describe 'parser/space' do
 
   it 'should parse single-line comments' do
     expect(parser).to parse("{//comment\n}", trace: true).as({})
+    expect(parser).to parse(<<~'JSON5', trace: true).as({})
+      {
+        // single
+        // line
+        // comments
+      }
+    JSON5
+
     expect(parser).to parse("[//comment\n]", trace: true).as([])
+    expect(parser).to parse(<<~'JSON5', trace: true).as([])
+      [
+        // single
+        // line
+        // comments
+      ]
+    JSON5
   end
 
   it 'should parse single-line comments at end of input' do
@@ -22,6 +37,25 @@ RSpec.describe 'parser/space' do
 
   it 'should parse multi-line comments' do
     expect(parser).to parse("{/*comment\n** / */}", trace: true).as({})
+    expect(parser).to parse(<<~'JSON5', trace: true).as({})
+      {
+        /**
+         * multi
+         * line
+         * comments
+         **/
+      }
+    JSON5
+
     expect(parser).to parse("[/*comment\n** / */]", trace: true).as([])
+    expect(parser).to parse(<<~'JSON5', trace: true).as([])
+      [
+        /**
+        * multi
+        * line
+        * comments
+        **/
+      ]
+    JSON5
   end
 end
