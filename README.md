@@ -1,8 +1,11 @@
-# RbJson5
+[![Gem Version](https://badge.fury.io/rb/rb_json5.svg)](https://badge.fury.io/rb/rb_json5)
+![CI](https://github.com/taichi-ishitani/rb_json5/workflows/CI/badge.svg)
+[![Maintainability](https://api.codeclimate.com/v1/badges/5f19b310082c03475c83/maintainability)](https://codeclimate.com/github/taichi-ishitani/rb_json5/maintainability)
+[![codecov](https://codecov.io/gh/taichi-ishitani/rb_json5/branch/master/graph/badge.svg)](https://codecov.io/gh/taichi-ishitani/rb_json5)
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/rb_json5`. To experiment with that code, run `bin/console` for an interactive prompt.
+# RbJSON5
 
-TODO: Delete this and the text above, and describe your gem
+[JSON5](https://json5.org/) parser for Ruby
 
 ## Installation
 
@@ -22,22 +25,76 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Use `RbJSON5.parse` method to parse JSON5 string.
+You can convert property names into `Symbol` by setting `symbolize_names` optional argument to `true`.
 
-## Development
+```ruby
+require 'rb_json5'
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+# https://github.com/json5/json5#short-example
+json5 = <<~'JSON5'
+{
+   // comments
+   unquoted: 'and you can quote me on that',
+   singleQuotes: 'I can use "double quotes" here',
+   lineBreaks: "Look, Mom! \
+ No \\n's!",
+   hexadecimal: 0xdecaf,
+   leadingDecimalPoint: .8675309, andTrailing: 8675309.,
+   positiveSign: +1,
+   trailingComma: 'in objects', andIn: ['arrays',],
+   "backwardsCompatible": "with JSON",
+ }
+JSON5
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+RbJSON5.parse(json5) # =>
+                     # {
+                     #   "unquoted"=>"and you can quote me on that",
+                     #   "singleQuotes"=>"I can use \"double quotes\" here",
+                     #   "lineBreaks"=>"Look, Mom! No \\n's!",
+                     #   "hexadecimal"=>912559,
+                     #   "leadingDecimalPoint"=>0.8675309,
+                     #   "andTrailing"=>8675309.0,
+                     #   "positiveSign"=>1,
+                     #   "trailingComma"=>"in objects",
+                     #   "andIn"=>["arrays"],
+                     #   "backwardsCompatible"=>"with JSON"
+                     # }
+RbJSON5.parse(json5, symbolize_names: true) # =>
+                                            # {
+                                            #   :unquoted=>"and you can quote me on that",
+                                            #   :singleQuotes=>"I can use \"double quotes\" here",
+                                            #   :lineBreaks=>"Look, Mom! No \\n's!",
+                                            #   :hexadecimal=>912559,
+                                            #   :leadingDecimalPoint=>0.8675309,
+                                            #   :andTrailing=>8675309.0,
+                                            #   :positiveSign=>1,
+                                            #   :trailingComma=>"in objects",
+                                            #   :andIn=>["arrays"],
+                                            #   :backwardsCompatible=>"with JSON"
+                                            # }
+```
 
-## Contributing
+## Contributing & Contact
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/rb_json5. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/rb_json5/blob/master/CODE_OF_CONDUCT.md).
+Bug reports, feature requests, pull requests and questions are welcome! You can use following methods:
 
+* [Issue tracker](https://github.com/taichi-ishitani/rb_json5/issues)
+* [Pull request](https://github.com/taichi-ishitani/rb_json5/pulls)
+* [Mail](mailto:taichi730@gmail.com)
 
-## License
+## Note
 
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+Test-suite and sample JSON5 code for RSpec examples are originaly from:
+
+* https://github.com/json5/json5-tests
+* https://github.com/json5/json5/blob/master/test/parse.js
+* https://github.com/json5/json5#short-example
+
+## Copyright & License
+
+Copyright &copy; 2020 Taichi Ishitani.
+RbJSON5 is licensed under [MIT License](https://opensource.org/licenses/MIT), see [LICENSE](LICENSE) for futher dttails.
 
 ## Code of Conduct
 
