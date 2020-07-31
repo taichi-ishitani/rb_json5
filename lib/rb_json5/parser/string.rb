@@ -7,7 +7,11 @@ module RbJSON5
     end
 
     parse_rule(:character_escape_sequence) do
-      str('\\') >> (match('[1-9xu]') | line_terminator).absent? >> any
+      str('\\') >> (match('[0-9xu]') | line_terminator).absent? >> any
+    end
+
+    parse_rule(:null_escape_sequence) do
+      str('\\') >> str('0') >> match('[1-9]').absent?
     end
 
     parse_rule(:hex_escape_sequence) do
@@ -19,8 +23,10 @@ module RbJSON5
     end
 
     parse_rule(:escape_sequence) do
-      (hex_escape_sequence | unicode_escape_sequence | character_escape_sequence)
-        .as(:escape_sequence)
+      (
+        hex_escape_sequence | unicode_escape_sequence |
+          null_escape_sequence | character_escape_sequence
+      ).as(:escape_sequence)
     end
 
     parse_rule(:line_continuation) do

@@ -85,10 +85,11 @@ Bug reports, feature requests, pull requests and questions are welcome! You can 
 
 ## Note
 
-Test-suite and sample JSON5 code for RSpec examples are originaly from:
+Test-suite and JSON5 code snippets for RSpec examples are originaly from:
 
 * https://github.com/json5/json5-tests
 * https://github.com/json5/json5/blob/master/test/parse.js
+* https://github.com/json5/json5/blob/master/test/errors.js
 * https://github.com/json5/json5#short-example
 
 ## Copyright & License
