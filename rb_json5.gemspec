@@ -15,6 +15,7 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = Gem::Requirement.new('>= 2.4.0')
 
   spec.metadata['bug_tracker_uri'] = 'https://github.com/taichi-ishitani/rb_json5/issues'
+  spec.metadata['documentation_uri'] = 'https://www.rubydoc.info/gems/rb_json5'
   spec.metadata['homepage_uri'] = spec.homepage
   spec.metadata['source_code_uri'] = spec.homepage
 

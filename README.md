@@ -2,6 +2,7 @@
 ![CI](https://github.com/taichi-ishitani/rb_json5/workflows/CI/badge.svg)
 [![Maintainability](https://api.codeclimate.com/v1/badges/5f19b310082c03475c83/maintainability)](https://codeclimate.com/github/taichi-ishitani/rb_json5/maintainability)
 [![codecov](https://codecov.io/gh/taichi-ishitani/rb_json5/branch/master/graph/badge.svg)](https://codecov.io/gh/taichi-ishitani/rb_json5)
+[![Inline docs](http://inch-ci.org/github/taichi-ishitani/rb_json5.svg?branch=master)](http://inch-ci.org/github/taichi-ishitani/rb_json5)
 
 # RbJSON5
 
