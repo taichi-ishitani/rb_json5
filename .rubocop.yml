@@ -57,6 +57,9 @@ Style/BisectedAttrAccessor:
 Style/CaseLikeIf:
   Enabled: true
 
+Style/Documentation:
+  Exclude: [lib/rb_json5/parser/*]
+
 Style/EmptyMethod:
   EnforcedStyle: expanded
 
