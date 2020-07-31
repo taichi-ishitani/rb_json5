@@ -3,15 +3,15 @@
 require File.expand_path('lib/rb_json5/version', __dir__)
 
 Gem::Specification.new do |spec|
-  spec.name          = 'rb_json5'
-  spec.version       = RbJSON5::VERSION
-  spec.authors       = ['Taichi Ishitani']
-  spec.email         = ['taichi730@gmail.com']
+  spec.name = 'rb_json5'
+  spec.version = RbJSON5::VERSION
+  spec.authors = ['Taichi Ishitani']
+  spec.email = ['taichi730@gmail.com']
 
-  spec.summary       = 'JSON5 parser for Ruby'
-  spec.description   = spec.summary
-  spec.homepage      = 'https://github.com/taichi-ishitani/rb_json5'
-  spec.license       = 'MIT'
+  spec.summary = 'JSON5 parser for Ruby'
+  spec.description = spec.summary
+  spec.homepage = 'https://github.com/taichi-ishitani/rb_json5'
+  spec.license = 'MIT'
   spec.required_ruby_version = Gem::Requirement.new('>= 2.4.0')
 
   spec.metadata['bug_tracker_uri'] = 'https://github.com/taichi-ishitani/rb_json5/issues'
