@@ -6,26 +6,21 @@ module RbJSON5
       (cr >> lf) | line_terminator
     end
 
-    parse_rule(:character_espace_sequence) do
-      (
-        str('\\') >> (match('[1-9xu]') | line_terminator).absent? >> any
-      ).as(:character_espace_sequence)
+    parse_rule(:character_escape_sequence) do
+      str('\\') >> (match('[1-9xu]') | line_terminator).absent? >> any
     end
 
     parse_rule(:hex_escape_sequence) do
-      (
-        str('\\') >> str('x') >> match('\\h').repeat(2, 2)
-      ).as(:code_escape_sequence)
+      str('\\') >> str('x') >> match('\\h').repeat(2, 2)
     end
 
     parse_rule(:unicode_escape_sequence) do
-      (
-        str('\\') >> str('u') >> match('\\h').repeat(4, 4)
-      ).as(:code_escape_sequence)
+      str('\\') >> str('u') >> match('\\h').repeat(4, 4)
     end
 
     parse_rule(:escape_sequence) do
-      unicode_escape_sequence | hex_escape_sequence | character_espace_sequence
+      (hex_escape_sequence | unicode_escape_sequence | character_escape_sequence)
+        .as(:escape_sequence)
     end
 
     parse_rule(:line_continuation) do
@@ -68,19 +63,8 @@ module RbJSON5
       single_string_charactors | double_string_charactors
     end
 
-    # list of charactors needing escape
-    ESCAPE_CHARACTERS = {
-      'b' => "\b", 'f' => "\f", 'n' => "\n",
-      'r' => "\r", 't' => "\t", 'v' => "\v",
-      '0' => "\0"
-    }.freeze
-
-    transform_rule(character_espace_sequence: simple(:character)) do
-      ESCAPE_CHARACTERS[character.str[1]] || character.str[1]
-    end
-
-    transform_rule(code_escape_sequence: simple(:sequence)) do
-      instance_eval("\"#{sequence}\"", __FILE__, __LINE__)
+    transform_rule(escape_sequence: simple(:sequence)) do
+      EscapeSequence.new(sequence)
     end
 
     transform_rule(line_continuation: simple(:_)) do

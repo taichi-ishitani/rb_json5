@@ -3,6 +3,7 @@
 require 'parslet'
 require_relative 'rb_json5/version'
 require_relative 'rb_json5/parse_error'
+require_relative 'rb_json5/escape_sequence'
 require_relative 'rb_json5/parser'
 require_relative 'rb_json5/parser/space'
 require_relative 'rb_json5/parser/misc'

@@ -2,29 +2,41 @@
 
 module RbJSON5
   class Parser
-    parse_rule(:unicode_letter) do
-      match('\\p{Letter}') | match('\\p{Letter_Number}')
+    # list of patterns for start character of identifier
+    IDENTIFIER_START_PATTERNS = [
+      /[$_]/, /\p{Letter}/, /\p{Letter_Number}/
+    ].freeze
+
+    # list of patterns for part character of identifier
+    IDENTIFIER_PART_PATTERNS = [
+      /[\u200c\u200d]/,
+      /\p{Nonspacing_Mark}/, /\p{Spacing_Mark}/,
+      /\p{Decimal_Number}/, /\p{Connector_Punctuation}/,
+      *IDENTIFIER_START_PATTERNS
+    ].freeze
+
+    parse_helper(:compile_identifier_rule) do |patterns|
+      patterns
+        .map { |pattern| match(pattern.to_s) }
+        .reduce(:|)
     end
 
-    parse_rule(:unicode_combining_mark) do
-      match('\\p{Nonspacing_Mark}') | match('\\p{Spacing_Mark}')
-    end
-
-    parse_rule(:unicode_digit) do
-      match('\\p{Decimal_Number}')
-    end
-
-    parse_rule(:unicode_connector_punctuation) do
-      match('\\p{Connector_Punctuation}')
+    parse_rule(:unicode_identifier_start) do
+      unicode_escape_sequence.as(:unicode_identifier_start)
     end
 
     parse_rule(:identifier_start) do
-      str('$') | str('_') | unicode_escape_sequence | unicode_letter
+      unicode_identifier_start |
+        compile_identifier_rule(IDENTIFIER_START_PATTERNS)
+    end
+
+    parse_rule(:unicode_identifier_part) do
+      unicode_escape_sequence.as(:unicode_identifier_part)
     end
 
     parse_rule(:identifier_part) do
-      identifier_start | unicode_combining_mark | unicode_digit |
-        unicode_connector_punctuation | str("\u200c") | str("\u200d")
+      unicode_identifier_part |
+        compile_identifier_rule(IDENTIFIER_PART_PATTERNS)
     end
 
     parse_rule(:identifier_name) do
@@ -53,13 +65,31 @@ module RbJSON5
       empty_object | non_empty_object
     end
 
-    # @api private
-    # structure to keep a name/value pair for JSON5Object
-    ObjectMember = Struct.new(:name, :value)
+    transform_rule(unicode_identifier_start: simple(:sequence)) do
+      EscapeSequence.new(sequence, IDENTIFIER_START_PATTERNS) do |character|
+        Parslet::Cause.format(
+          sequence.line_cache, sequence.position.bytepos,
+          "#{character.inspect} cannot be used for identifier"
+        ).raise
+      end
+    end
+
+    transform_rule(unicode_identifier_part: simple(:sequence)) do
+      EscapeSequence.new(sequence, IDENTIFIER_PART_PATTERNS) do |character|
+        Parslet::Cause.format(
+          sequence.line_cache, sequence.position.bytepos,
+          "#{character.inspect} cannot be used for identifier"
+        ).raise
+      end
+    end
 
     transform_rule(identifier_name: subtree(:name)) do
       Array(name).join
     end
+
+    # @api private
+    # structure to keep a name/value pair for JSON5Object
+    ObjectMember = Struct.new(:name, :value)
 
     transform_rule(object_member: { key: simple(:key), value: subtree(:value) }) do
       ObjectMember.new(symbolize_names && key.to_sym || key.to_s, value)
