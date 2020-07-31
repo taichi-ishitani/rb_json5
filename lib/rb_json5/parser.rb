@@ -32,9 +32,9 @@ module RbJSON5
       @root = root
     end
 
-    def parse(input)
-      tree = parser.parse(input)
-      transform.apply(tree)
+    def parse(json5, symbolize_names = false)
+      tree = parser.parse(json5)
+      transform.apply(tree, symbolize_names: symbolize_names)
     end
 
     private

@@ -60,7 +60,7 @@ module RbJSON5
     end
 
     transform_rule(object_member: { key: simple(:key), value: subtree(:value) }) do
-      ObjectMember.new(key.to_s, value)
+      ObjectMember.new(symbolize_names && key.to_sym || key.to_s, value)
     end
 
     transform_rule(object_members: subtree(:members)) do
