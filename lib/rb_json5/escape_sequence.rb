@@ -35,7 +35,7 @@ module RbJSON5
     def unescape(sequence, valid_patterns, ifinvalid)
       character =
         if ['x', 'u'].include?(sequence[1])
-          "\"#{sequence}\"".undump
+          instance_eval("\"#{sequence}\"", __FILE__, __LINE__)
         else
           ESCAPE_CHARACTERS[sequence[1]] || sequence[1]
         end
