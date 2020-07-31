@@ -57,6 +57,8 @@ module RbJSON5
     def parse(json5, symbolize_names = false)
       tree = parser.parse(json5)
       transform.apply(tree, symbolize_names: symbolize_names)
+    rescue Parslet::ParseFailed => e
+      raise ParseError.new(e.message, e.parse_failure_cause)
     end
 
     private
