@@ -5,6 +5,10 @@ gemspec
 
 gem 'rake'
 
+group :develop do
+  gem 'rubocop', '~> 0.88.0', require: false
+end
+
 group :test do
   gem 'rspec', '~> 3.9', require: false
   gem 'simplecov', require: false

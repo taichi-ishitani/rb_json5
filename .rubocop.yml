@@ -1,0 +1,109 @@
+AllCops:
+  TargetRubyVersion: 2.4
+  Exclude:
+    - spec/**/*
+
+Layout/EmptyLinesAroundAttributeAccessor:
+  Enabled: true
+
+Layout/EndOfLine:
+  EnforcedStyle: lf
+
+Layout/LineLength:
+  Max: 90
+
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented_relative_to_receiver
+
+Layout/SpaceAroundMethodCallOperator:
+  Enabled: true
+
+Lint/DeprecatedOpenSSLConstant:
+  Enabled: true
+
+Lint/DuplicateElsifCondition:
+  Enabled: true
+
+Lint/MixedRegexpCaptureTypes:
+  Enabled: true
+
+Lint/RaiseException:
+  Enabled: true
+
+Lint/StructNewOverride:
+  Enabled: true
+
+Metrics/ClassLength:
+  Max: 130
+
+Metrics/MethodLength:
+  Max: 15
+
+Metrics/ModuleLength:
+  Max: 130
+
+Style/AccessorGrouping:
+  Enabled: true
+
+Style/Alias:
+  EnforcedStyle: prefer_alias_method
+
+Style/ArrayCoercion:
+  Enabled: true
+
+Style/BisectedAttrAccessor:
+  Enabled: true
+
+Style/CaseLikeIf:
+  Enabled: true
+
+Style/EmptyMethod:
+  EnforcedStyle: expanded
+
+Style/ExponentialNotation:
+  Enabled: true
+
+Style/FormatStringToken:
+  EnforcedStyle: unannotated
+
+Style/HashAsLastArrayItem:
+  Enabled: true
+
+Style/HashEachMethods:
+  Enabled: true
+
+Style/HashLikeCase:
+  Enabled: true
+
+Style/HashTransformKeys:
+  Enabled: true
+
+Style/HashTransformValues:
+  Enabled: true
+
+Style/RaiseArgs:
+  EnforcedStyle: compact
+
+Style/RedundantAssignment:
+  Enabled: true
+
+Style/RedundantFetchBlock:
+  Enabled: true
+
+Style/RedundantFileExtensionInRequire:
+  Enabled: true
+
+Style/RedundantRegexpCharacterClass:
+  Enabled: true
+
+Style/RedundantRegexpEscape:
+  Enabled: true
+
+Style/SlicingWithRange:
+  Enabled: true
+
+Style/SymbolArray:
+  EnforcedStyle: brackets
+
+Style/WordArray:
+  EnforcedStyle: brackets
