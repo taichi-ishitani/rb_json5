@@ -53,6 +53,8 @@ module RbJSON5
       empty_object | non_empty_object
     end
 
+    # @api private
+    # structure to keep a name/value pair for JSON5Object
     ObjectMember = Struct.new(:name, :value)
 
     transform_rule(identifier_name: subtree(:name)) do

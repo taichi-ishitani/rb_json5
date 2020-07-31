@@ -13,6 +13,7 @@ module RbJSON5
       lf | cr | ls | ps
     end
 
+    # list of character codes of white space
     WHITE_SPACE_CODES = [
       "\u0009", "\u000b", "\u000c", "\u0020", "\u00a0", "\ufeff"
     ].freeze

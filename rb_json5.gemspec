@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
-lib = File.expand_path('lib', __dir__)
-$LOAD_PATH.include?(lib) || $LOAD_PATH.unshift(lib)
-require 'rb_json5/version'
+require File.expand_path('lib/rb_json5/version', __dir__)
 
 Gem::Specification.new do |spec|
   spec.name          = 'rb_json5'
@@ -26,8 +24,10 @@ Gem::Specification.new do |spec|
 
   spec.add_runtime_dependency 'parslet', '~> 2.0'
 
+  spec.add_development_dependency 'redcarpet', '~> 3.5.0'
   spec.add_development_dependency 'rspec', '~> 3.9.0'
   spec.add_development_dependency 'rubocop', '~> 0.88.0'
   spec.add_development_dependency 'simplecov', '~> 0.18.0'
   spec.add_development_dependency 'simplecov-cobertura', '~> 1.3.0'
+  spec.add_development_dependency 'yard', '~> 0.9.0'
 end

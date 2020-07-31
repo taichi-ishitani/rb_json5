@@ -68,6 +68,7 @@ module RbJSON5
       single_string_charactors | double_string_charactors
     end
 
+    # list of charactors needing escape
     ESCAPE_CHARACTERS = {
       'b' => "\b", 'f' => "\f", 'n' => "\n",
       'r' => "\r", 't' => "\t", 'v' => "\v",
