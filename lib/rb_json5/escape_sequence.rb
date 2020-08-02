@@ -8,11 +8,16 @@ module RbJSON5
     #   escape sequence
     # @param valid_patterns [Array<Regexp>]
     #   list of patterns for valid unescaped character
-    # @param ifinvalid [Proc]
+    # @yield [character, sequence]
     #   call back block called when unespaced character is not matched
     #   with the given valid_patterns
+    # @yieldparam character [String]
+    #   character unescaped from the given escape sequence
+    # @yieldparam sequence [Parslet::Slice]
+    #   the given escape sequence
     def initialize(sequence, valid_patterns = [], &ifinvalid)
-      @character = unescape(sequence.to_s, valid_patterns, ifinvalid)
+      @character = unescape(sequence.to_s)
+      validate(@character, sequence, valid_patterns, ifinvalid)
     end
 
     # returns the character unescaped from the given escape sequence
@@ -32,15 +37,17 @@ module RbJSON5
       '0' => "\0"
     }.freeze
 
-    def unescape(sequence, valid_patterns, ifinvalid)
-      character =
-        if ['x', 'u'].include?(sequence[1])
-          instance_eval("\"#{sequence}\"", __FILE__, __LINE__)
-        else
-          ESCAPE_CHARACTERS[sequence[1]] || sequence[1]
-        end
-      valid_character?(character, valid_patterns) &&
-        character || ifinvalid.call(character)
+    def unescape(sequence)
+      if ['x', 'u'].include?(sequence[1])
+        instance_eval("\"#{sequence}\"", __FILE__, __LINE__)
+      else
+        ESCAPE_CHARACTERS[sequence[1]] || sequence[1]
+      end
+    end
+
+    def validate(character, sequence, valid_patterns, ifinvalid)
+      valid_character?(character, valid_patterns) ||
+        ifinvalid&.call(character, sequence)
     end
 
     def valid_character?(character, valid_patterns)

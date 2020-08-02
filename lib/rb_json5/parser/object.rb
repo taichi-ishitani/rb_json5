@@ -65,21 +65,21 @@ module RbJSON5
       empty_object | non_empty_object
     end
 
-    transform_rule(unicode_identifier_start: simple(:sequence)) do
-      EscapeSequence.new(sequence, IDENTIFIER_START_PATTERNS) do |character|
-        Parslet::Cause.format(
-          sequence.line_cache, sequence.position.bytepos,
-          "#{character.inspect} cannot be used for identifier"
-        ).raise
-      end
+    # call back block called when character unescaped from Unicode escape sequence
+    # is not allowed for identifier
+    INVALID_CHARACTER_FOR_IDENTIFIER = lambda do |character, sequence|
+      Parslet::Cause.format(
+        sequence.line_cache, sequence.position.bytepos,
+        "#{character.inspect} cannot be used for identifier"
+      ).raise
     end
 
-    transform_rule(unicode_identifier_part: simple(:sequence)) do
-      EscapeSequence.new(sequence, IDENTIFIER_PART_PATTERNS) do |character|
-        Parslet::Cause.format(
-          sequence.line_cache, sequence.position.bytepos,
-          "#{character.inspect} cannot be used for identifier"
-        ).raise
+    {
+      unicode_identifier_start: IDENTIFIER_START_PATTERNS,
+      unicode_identifier_part: IDENTIFIER_START_PATTERNS
+    }.each do |rule, patterns|
+      transform_rule(rule => simple(:sequence)) do
+        EscapeSequence.new(sequence, patterns, &INVALID_CHARACTER_FOR_IDENTIFIER)
       end
     end
 
