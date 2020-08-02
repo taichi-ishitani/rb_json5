@@ -2,6 +2,7 @@
 
 require 'bundler/setup'
 require 'parslet/rig/rspec'
+require 'stringio'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

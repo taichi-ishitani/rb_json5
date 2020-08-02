@@ -19,6 +19,10 @@ RSpec.describe RbJSON5 do
       JSON5
     end
 
+    let(:input_io) do
+      StringIO.new(input)
+    end
+
     let(:output) do
       {
         'unquoted' => 'and you can quote me on that',
@@ -43,9 +47,14 @@ RSpec.describe RbJSON5 do
         expect(RbJSON5.parse(input)).to eq output
       end
 
+      it 'should parse JSON5 string got from the given IO' do
+        expect(RbJSON5.parse(input_io)).to eq output
+      end
+
       context 'when \'symbolize_names\' is set to true' do
         specify 'property names should be converted into Symbol' do
           expect(RbJSON5.parse(input, symbolize_names: true)).to eq output_with_symblize_names
+          expect(RbJSON5.parse(input_io, symbolize_names: true)).to eq output_with_symblize_names
         end
       end
     end
@@ -56,8 +65,7 @@ RSpec.describe RbJSON5 do
       end
 
       before do
-        io = double('io')
-        allow(io).to receive(:read).and_return(input)
+        io = StringIO.new(input)
         allow(File).to receive(:open).with(file_name, 'r').and_yield(io)
       end
 

@@ -54,14 +54,19 @@ module RbJSON5
     #
     # @see RbJSON5.parse
     # @see RbJSON5.load_file
-    def parse(json5, symbolize_names = false)
-      tree = parser.parse(json5)
+    def parse(string_or_io, symbolize_names = false)
+      tree = parser.parse(read_json5(string_or_io))
       transform.apply(tree, symbolize_names: symbolize_names)
     rescue Parslet::ParseFailed => e
       raise ParseError.new(e.message, e.parse_failure_cause)
     end
 
     private
+
+    def read_json5(string_or_io)
+      string_or_io.respond_to?(:read) &&
+        string_or_io.read || string_or_io
+    end
 
     def parser
       parser = self.class.parser.new

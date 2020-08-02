@@ -18,16 +18,16 @@ require_relative 'rb_json5/parser/object'
 module RbJSON5
   # Parses a JSON5 string into its Ruby data structure
   #
-  # @param json5 [String]
-  #   JSON5 string
+  # @param string_or_io [String, #read]
+  #   JSON5 string itself or object like IO containing JSON5 string
   # @param symbolize_names [Boolean]
   #   If set to true, converts names (keys) in a JSON5 object into Symbol
   # @return [Object]
   #   Ruby data structure represented by the input
   #
   # @see RbJSON5.load_file
-  def self.parse(json5, symbolize_names: false)
-    Parser.new.parse(json5, symbolize_names)
+  def self.parse(string_or_io, symbolize_names: false)
+    Parser.new.parse(string_or_io, symbolize_names)
   end
 
   # Reads a JSON5 string from the given file and parses it into its Ruby data structure
@@ -41,8 +41,6 @@ module RbJSON5
   #
   # @see RbJSON5.parse
   def self.load_file(filename, symbolize_names: false)
-    File.open(filename, 'r') do |f|
-      parse(f.read, symbolize_names: symbolize_names)
-    end
+    File.open(filename, 'r') { |io| parse(io, symbolize_names: symbolize_names) }
   end
 end
