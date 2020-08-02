@@ -48,32 +48,34 @@ json5 = <<~'JSON5'
  }
 JSON5
 
-RbJSON5.parse(json5) # =>
-                     # {
-                     #   "unquoted"=>"and you can quote me on that",
-                     #   "singleQuotes"=>"I can use \"double quotes\" here",
-                     #   "lineBreaks"=>"Look, Mom! No \\n's!",
-                     #   "hexadecimal"=>912559,
-                     #   "leadingDecimalPoint"=>0.8675309,
-                     #   "andTrailing"=>8675309.0,
-                     #   "positiveSign"=>1,
-                     #   "trailingComma"=>"in objects",
-                     #   "andIn"=>["arrays"],
-                     #   "backwardsCompatible"=>"with JSON"
-                     # }
-RbJSON5.parse(json5, symbolize_names: true) # =>
-                                            # {
-                                            #   :unquoted=>"and you can quote me on that",
-                                            #   :singleQuotes=>"I can use \"double quotes\" here",
-                                            #   :lineBreaks=>"Look, Mom! No \\n's!",
-                                            #   :hexadecimal=>912559,
-                                            #   :leadingDecimalPoint=>0.8675309,
-                                            #   :andTrailing=>8675309.0,
-                                            #   :positiveSign=>1,
-                                            #   :trailingComma=>"in objects",
-                                            #   :andIn=>["arrays"],
-                                            #   :backwardsCompatible=>"with JSON"
-                                            # }
+RbJSON5.parse(json5)
+  # =>
+  # {
+  #   "unquoted"=>"and you can quote me on that",
+  #   "singleQuotes"=>"I can use \"double quotes\" here",
+  #   "lineBreaks"=>"Look, Mom! No \\n's!",
+  #   "hexadecimal"=>912559,
+  #   "leadingDecimalPoint"=>0.8675309,
+  #   "andTrailing"=>8675309.0,
+  #   "positiveSign"=>1,
+  #   "trailingComma"=>"in objects",
+  #   "andIn"=>["arrays"],
+  #   "backwardsCompatible"=>"with JSON"
+  # }
+RbJSON5.parse(json5, symbolize_names: true)
+  # =>
+  # {
+  #   :unquoted=>"and you can quote me on that",
+  #   :singleQuotes=>"I can use \"double quotes\" here",
+  #   :lineBreaks=>"Look, Mom! No \\n's!",
+  #   :hexadecimal=>912559,
+  #   :leadingDecimalPoint=>0.8675309,
+  #   :andTrailing=>8675309.0,
+  #   :positiveSign=>1,
+  #   :trailingComma=>"in objects",
+  #   :andIn=>["arrays"],
+  #   :backwardsCompatible=>"with JSON"
+  # }
 ```
 
 ## Contributing & Contact
