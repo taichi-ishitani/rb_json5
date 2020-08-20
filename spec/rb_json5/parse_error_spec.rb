@@ -73,7 +73,7 @@ RSpec.describe 'parse error' do
     expect(parser).not_to parse('"', trace: true)
   end
 
-  it 'should invalid identifier start characters in property names' do
+  it 'should not parse invalid identifier start characters in property names' do
     expect(parser).not_to parse('{!:1}', trace: true)
   end
 
