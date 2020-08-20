@@ -13,14 +13,7 @@ CLEAN << 'coverage'
 RSpec::Core::RakeTask.new(:spec)
 RuboCop::RakeTask.new(:rubocop)
 
-YARD::Rake::YardocTask.new(:yard) do |t|
-  t.files = [
-    'lib/**/*.rb', '-', 'LICENSE', 'CODE_OF_CONDUCT.md', 'README.md'
-  ]
-  t.options = [
-    '--markup-provider=redcarpet', '--markup=markdown', '--main=README.md'
-  ]
-end
+YARD::Rake::YardocTask.new(:yard)
 
 desc 'run all RSpec exmaples and collect coverage'
 task :coverage do
