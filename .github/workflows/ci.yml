@@ -8,32 +8,20 @@ jobs:
 
     strategy:
       matrix:
-        ruby: ['2.7', '2.6', '2.5', '2.4']
+        ruby: ['3.0', '2.7', '2.6', '2.5', '2.4']
 
     steps:
       - name: Checkout
         uses: actions/checkout@v2
         with:
           submodules: true
+          fetch-depth: 0
 
       - name: Set up Ruby
-        uses: actions/setup-ruby@v1
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
-
-      - name: Cache gems
-        uses: actions/cache@v1
-        with:
-          path: vendor/bundle
-          key: gems-${{ runner.os }}-${{ matrix.ruby }}-${{ github.sha }}
-          restore-keys: |
-            gems-${{ runner.os }}-${{ matrix.ruby }}-
-
-      - name: Install gems
-        run: |
-          gem install -N bundler
-          bundle config path vendor/bundle
-          bundle install
+          bundler-cache: true
 
       - name: Run RSpec
         run: |
