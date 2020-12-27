@@ -27,10 +27,10 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency 'bundler'
   spec.add_development_dependency 'rake'
-  spec.add_development_dependency 'redcarpet', '~> 3.5.0'
-  spec.add_development_dependency 'rspec', '~> 3.9.0'
-  spec.add_development_dependency 'rubocop', '~> 0.88.0'
-  spec.add_development_dependency 'simplecov', '~> 0.18.0'
-  spec.add_development_dependency 'simplecov-cobertura', '~> 1.3.0'
-  spec.add_development_dependency 'yard', '~> 0.9.0'
+  spec.add_development_dependency 'redcarpet', '>= 3.5.0'
+  spec.add_development_dependency 'rspec', '>= 3.9.0'
+  spec.add_development_dependency 'rubocop', '>= 0.88.0'
+  spec.add_development_dependency 'simplecov', '>= 0.18.0'
+  spec.add_development_dependency 'simplecov-cobertura', '>= 1.3.0'
+  spec.add_development_dependency 'yard', '>= 0.9.0'
 end
