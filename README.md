@@ -98,7 +98,7 @@ Test-suite and JSON5 code snippets for RSpec examples are originaly from:
 ## Copyright & License
 
 Copyright &copy; 2020 Taichi Ishitani.
-RbJSON5 is licensed under [MIT License](https://opensource.org/licenses/MIT), see [LICENSE](LICENSE) for futher dttails.
+RbJSON5 is licensed under [MIT License](https://opensource.org/licenses/MIT), see [LICENSE](LICENSE) for further details.
 
 ## Code of Conduct
 
