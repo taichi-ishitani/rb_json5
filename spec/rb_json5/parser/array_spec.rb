@@ -21,4 +21,8 @@ RSpec.describe 'parser/array' do
   it 'should parse arrays with an extra comma' do
     expect(parser).to parse('[1,]', trace: true).as([1])
   end
+
+  it 'should parse nested arrays with single element' do
+    expect(parser).to parse('[[1]]', trace: true).as([[1]])
+  end
 end

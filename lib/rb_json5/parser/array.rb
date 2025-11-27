@@ -7,7 +7,7 @@ module RbJSON5
     end
 
     parse_rule(:array_elements) do
-      value >> (comma >> value).repeat >> comma.maybe
+      value.as(:element) >> (comma >> value.as(:element)).repeat >> comma.maybe
     end
 
     parse_rule(:non_empty_array) do
@@ -21,7 +21,8 @@ module RbJSON5
     transform_rule(empty_array: simple(:_)) { [] }
 
     transform_rule(array_elements: subtree(:elements)) do
-      elements.is_a?(Array) && elements || [elements]
+      normalized_elements = elements.is_a?(Array) && elements || [elements]
+      normalized_elements.map { |entry| entry[:element] }
     end
   end
 end
