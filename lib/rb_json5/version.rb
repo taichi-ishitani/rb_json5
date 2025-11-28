@@ -2,5 +2,5 @@
 
 module RbJSON5
   # Current version of RbJSON5
-  VERSION = '0.3.0'
+  VERSION = '0.3.1'
 end
