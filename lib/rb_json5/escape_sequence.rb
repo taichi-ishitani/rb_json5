@@ -36,10 +36,11 @@ module RbJSON5
       'r' => "\r", 't' => "\t", 'v' => "\v",
       '0' => "\0"
     }.freeze
+    private_constant :ESCAPE_CHARACTERS
 
     def unescape(sequence)
       if ['x', 'u'].include?(sequence[1])
-        instance_eval("\"#{sequence}\"", __FILE__, __LINE__)
+        instance_eval("\"#{sequence}\"", __FILE__, __LINE__) # "\"\u2028\""
       else
         ESCAPE_CHARACTERS[sequence[1]] || sequence[1]
       end

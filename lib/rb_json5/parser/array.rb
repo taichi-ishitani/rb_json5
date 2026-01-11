@@ -21,7 +21,7 @@ module RbJSON5
     transform_rule(empty_array: simple(:_)) { [] }
 
     transform_rule(array_elements: subtree(:elements)) do
-      normalized_elements = elements.is_a?(Array) && elements || [elements]
+      normalized_elements = (elements.is_a?(Array) && elements) || [elements]
       normalized_elements.map { |entry| entry[:element] }
     end
   end

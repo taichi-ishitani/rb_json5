@@ -1,7 +1,9 @@
 AllCops:
-  TargetRubyVersion: 2.4
+  TargetRubyVersion: 3.1
   Exclude:
     - spec/**/*
+  NewCops: enable
+  SuggestExtensions: false
 
 Layout/EmptyLinesAroundAttributeAccessor:
   Enabled: true
