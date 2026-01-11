@@ -69,7 +69,7 @@ module RbJSON5
     transform_rule(fractional_number: simple(:n)) { n.to_f }
 
     transform_rule(infinity_literal: simple(:n)) do
-      n.str[0] == '-' && -Float::INFINITY || Float::INFINITY
+      (n.str[0] == '-' && -Float::INFINITY) || Float::INFINITY
     end
 
     transform_rule(nan_literal: simple(:n)) { Float::NAN }

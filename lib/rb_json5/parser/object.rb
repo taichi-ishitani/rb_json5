@@ -92,11 +92,11 @@ module RbJSON5
     ObjectMember = Struct.new(:name, :value)
 
     transform_rule(object_member: { key: simple(:key), value: subtree(:value) }) do
-      ObjectMember.new(symbolize_names && key.to_sym || key.to_s, value)
+      ObjectMember.new((symbolize_names && key.to_sym) || key.to_s, value)
     end
 
     transform_rule(object_members: subtree(:members)) do
-      (members.is_a?(Array) && members || [members]).map(&:to_a).to_h
+      ((members.is_a?(Array) && members) || [members]).to_h(&:to_a)
     end
 
     transform_rule(empty_object: simple(:_)) do

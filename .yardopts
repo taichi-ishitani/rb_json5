@@ -1,9 +1,0 @@
---main=README.md
---markup=markdown
---markup-provider=redcarpet
-
-lib/**/*.rb
--
-LICENSE
-CODE_OF_CONDUCT.md
-README.md

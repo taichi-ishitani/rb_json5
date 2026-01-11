@@ -27,7 +27,7 @@ module RbJSON5
   #
   # @see RbJSON5.load_file
   def self.parse(string_or_io, symbolize_names: false)
-    Parser.new.parse(string_or_io, symbolize_names)
+    Parser.new.parse(string_or_io, symbolize_names:)
   end
 
   # Reads a JSON5 string from the given file and parses it into its Ruby data structure
@@ -41,6 +41,6 @@ module RbJSON5
   #
   # @see RbJSON5.parse
   def self.load_file(filename, symbolize_names: false)
-    File.open(filename, 'r') { |io| parse(io, symbolize_names: symbolize_names) }
+    File.open(filename, 'r') { |io| parse(io, symbolize_names:) }
   end
 end
