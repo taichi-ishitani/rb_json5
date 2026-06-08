@@ -40,7 +40,7 @@ jobs:
           bundle exec rake coverage
 
       - name: Upload coverage report
-        uses: codecov/codecov-action@v6
+        uses: codecov/codecov-action@v7
         with:
           name: ${{ runner.os }}-${{ matrix.ruby }}
           files: ./coverage/coverage.xml
