@@ -39,11 +39,20 @@ module RbJSON5
     private_constant :ESCAPE_CHARACTERS
 
     def unescape(sequence)
-      if ['x', 'u'].include?(sequence[1])
-        instance_eval("\"#{sequence}\"", __FILE__, __LINE__) # "\"\u2028\""
-      else
-        ESCAPE_CHARACTERS[sequence[1]] || sequence[1]
+      case sequence[1]
+      when 'x' then sequence[2, 2].hex.chr(Encoding::UTF_8)
+      when 'u' then unescape_unicode(sequence)
+      else ESCAPE_CHARACTERS[sequence[1]] || sequence[1]
       end
+    end
+
+    # A surrogate pair (\uD83D\uDE00) is unescaped to one character.
+    # An unpaired surrogate gives a string with invalid encoding.
+    def unescape_unicode(sequence)
+      high, low = sequence.scan(/\h{4}/).map(&:hex)
+      code_point =
+        (low && (0x10000 + ((high - 0xD800) << 10) + (low - 0xDC00))) || high
+      [code_point].pack('U')
     end
 
     def validate(character, sequence, valid_patterns, ifinvalid)
@@ -52,6 +61,8 @@ module RbJSON5
     end
 
     def valid_character?(character, valid_patterns)
+      return false unless character.valid_encoding?
+
       valid_patterns.empty? ||
         valid_patterns.any? { |pattern| pattern.match?(character) }
     end
