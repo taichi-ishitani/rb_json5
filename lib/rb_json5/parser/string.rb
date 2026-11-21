@@ -22,9 +22,21 @@ module RbJSON5
       str('\\') >> str('u') >> match('\\h').repeat(4, 4)
     end
 
+    parse_rule(:high_surrogate_escape_sequence) do
+      str('\\u') >> match('[dD]') >> match('[89abAB]') >> match('\\h').repeat(2, 2)
+    end
+
+    parse_rule(:low_surrogate_escape_sequence) do
+      str('\\u') >> match('[dD]') >> match('[c-fC-F]') >> match('\\h').repeat(2, 2)
+    end
+
+    parse_rule(:surrogate_pair_escape_sequence) do
+      high_surrogate_escape_sequence >> low_surrogate_escape_sequence
+    end
+
     parse_rule(:escape_sequence) do
       (
-        hex_escape_sequence | unicode_escape_sequence |
+        hex_escape_sequence | surrogate_pair_escape_sequence | unicode_escape_sequence |
           null_escape_sequence | character_escape_sequence
       ).as(:escape_sequence)
     end
@@ -69,8 +81,16 @@ module RbJSON5
       single_string_charactors | double_string_charactors
     end
 
+    # call back block called when an escape sequence gives an unpaired surrogate
+    UNPAIRED_SURROGATE = lambda do |_character, sequence|
+      Parslet::Cause.format(
+        sequence.line_cache, sequence.position.bytepos,
+        "#{sequence} is an unpaired surrogate"
+      ).raise
+    end
+
     transform_rule(escape_sequence: simple(:sequence)) do
-      EscapeSequence.new(sequence)
+      EscapeSequence.new(sequence, &UNPAIRED_SURROGATE)
     end
 
     transform_rule(line_continuation: simple(:_)) do
